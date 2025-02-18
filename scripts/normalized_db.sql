@@ -39,3 +39,17 @@ CREATE TABLE Programador_Linguagem (
     FOREIGN KEY (id_linguagem) REFERENCES Linguagens(id_linguagem) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- Trigger para impedir que programadores sejam inseridos sem startup
+DELIMITER $$
+
+CREATE TRIGGER before_insert_programador
+BEFORE INSERT ON Programadores
+FOR EACH ROW
+BEGIN
+    IF NEW.id_startup IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Cada programador deve estar vinculado a uma startup!';
+    END IF;
+END $$
+
+DELIMITER ;
