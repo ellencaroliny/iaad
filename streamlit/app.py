@@ -226,6 +226,8 @@ def programadores_crud_interface():
         # ID da Startup como lista de opções
         startups = get_startups()  # Função que recupera as startups
         startup_options = {s[1]: s[0] for s in startups}  # Mapeamento de nome da startup para ID
+        startup_options['NENHUMA STARTUP'] = 'NULL'
+        print(startup_options)
         startup_selecionada = st.selectbox(
             "Startup",
             options=list(startup_options.keys()),  # Exibe os nomes das startups
@@ -235,13 +237,11 @@ def programadores_crud_interface():
 
         if st.button("Salvar") and id_programador not in existing_ids:
             if data_nasc and eh_maior_de_idade(data_nasc):
-                insert_programador(id_programador, nome_programador, genero, data_nasc, id_startup)
-                st.success("✅ Programador adicionado!")
-                st.session_state.show_insert_form = False
-                time.sleep(1)
-                st.rerun()
-            else:
-                st.error("❌ Não foi possível adicionar o programador. Verifique a data de nascimento.")
+                try:
+                    insert_programador(id_programador, nome_programador, genero, data_nasc, id_startup)
+                    st.success("✅ Programador adicionado!")
+                except Exception as e:
+                    st.error(f'Cada programador deve estar vinculado a uma startup!')
 
 
     # Formulário de Editar Programador
