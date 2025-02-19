@@ -7,7 +7,6 @@ from connect_db import connect_to_db
 from consultas import *
 
 
-
 def startup_crud_interface():
     st.title("Gerenciamento de Startups")
 
@@ -877,13 +876,51 @@ def graficos_interface():
     fig7 = px.bar(dependentes_count, x='nome_programador', y='Quantidade', title="Quantidade de Dependentes por Programador")
     st.plotly_chart(fig7)
 
-# Função principal
+def dashboard_interface():
+    st.title("Consultas")
+    
+    # Número de programadores por startup
+    st.subheader("Número de Programadores por Startup")
+    data = get_numero_programadores_por_startup()
+    df = pd.DataFrame(data, columns=["Startup", "Total de Programadores"])
+    st.dataframe(df)
+    
+    # Média de idade dos programadores por startup
+    st.subheader("Média de Idade dos Programadores por Startup")
+    data = get_media_idade_por_startup()
+    df = pd.DataFrame(data, columns=["Startup", "Média de Idade"])
+    st.dataframe(df)
+    
+    # Número de dependentes por programador
+    st.subheader("Número de Dependentes por Programador")
+    data = get_numero_dependentes_por_programador()
+    df = pd.DataFrame(data, columns=["Programador", "Total de Dependentes"])
+    st.dataframe(df)
+    
+    # Programador mais velho e mais novo
+    st.subheader("Programador Mais Velho e Mais Novo")
+    data = get_programador_mais_velho_novo()
+    df = pd.DataFrame(data, columns=["Nome", "Data de Nascimento", "Idade"])
+    st.dataframe(df)
+    
+    # Número de programadores por gênero
+    st.subheader("Distribuição de Programadores por Gênero")
+    data = get_numero_programadores_por_genero()
+    df = pd.DataFrame(data, columns=["Gênero", "Total"])
+    st.dataframe(df)
+    
+    # Startups mais diversas
+    st.subheader("Startups Mais Diversas")
+    data = get_startups_mais_diversas()
+    df = pd.DataFrame(data, columns=["Startup", "Total Homens", "Total Mulheres", "Score Diversidade"])
+    st.dataframe(df)
+
 def main():
     # Menu Lateral
     st.sidebar.title("Menu")
     menu_option = st.sidebar.radio(
         "Escolha uma opção",
-        ["Gerenciamento de Tabelas", "Gráficos", "Filtragem"]
+        ["Gerenciamento de Tabelas", "Gráficos", "Filtragem", "Consultas"]
     )
 
     if menu_option == "Gerenciamento de Tabelas":
@@ -904,6 +941,8 @@ def main():
         graficos_interface()
     elif menu_option == "Filtragem":
         filtragem_interface()
+    elif menu_option == "Consultas":
+        dashboard_interface()
 
 if __name__ == "__main__":
     main()
