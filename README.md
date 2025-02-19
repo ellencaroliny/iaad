@@ -1,8 +1,6 @@
-# IAAD
-Repositório referente ao projeto da disciplina de IAAD
-
 # Gerenciamento de Startups
 
+Repositório referente ao projeto da disciplina de IAAD
 Este projeto é uma interface CRUD (Create, Read, Update, Delete) para gerenciar startups. 
 Ele utiliza as bibliotecas Streamlit e Plotly para a interface e visualização de dados.
 
