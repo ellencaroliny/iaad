@@ -226,7 +226,7 @@ def programadores_crud_interface():
         # ID da Startup como lista de opções
         startups = get_startups()  # Função que recupera as startups
         startup_options = {s[1]: s[0] for s in startups}  # Mapeamento de nome da startup para ID
-        startup_options['NENHUMA STARTUP'] = 'NULL'
+        startup_options[''] = 'NULL'
         print(startup_options)
         startup_selecionada = st.selectbox(
             "Startup",
